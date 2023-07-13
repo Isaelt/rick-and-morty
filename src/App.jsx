@@ -6,12 +6,18 @@ import LocationInfo from './components/LocationInfo'
 import ResidentCard from './components/ResidentCard'
 import FormLocation from './components/FormLocation'
 import img01 from './assets/img01.svg'
+import Pagination from './components/Pagination'
+
+
 function App() {
 
   const [location, setLocation] =useState()
   const [idLocation, setIdLocation] = useState(getRandomNumber(126))
   const [hasError, setHasError] = useState(false)
   const [isLoading, setisLoading] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 8;
+  const totalResidents = (location?.residents.length)
 
   useEffect(() => {
     const url = `https://rickandmortyapi.com/api/location/${idLocation}`
@@ -31,14 +37,17 @@ function App() {
     })
 
   }, [idLocation])
-  
-  console.log(idLocation)
 
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  
+ 
   return (
     <div>
       <div className='img-container'></div>
      <FormLocation
      setIdLocation={setIdLocation}
+     setCurrentPage={setCurrentPage}
      />
 
      {
@@ -58,9 +67,15 @@ function App() {
                key={url}
                url={url}
              />
-           ))
+           )).slice(firstPostIndex, lastPostIndex)
           }
         </div>
+        <Pagination
+        totalPosts={totalResidents}
+        postsPerPage={postsPerPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        />
         </>
       )
         )
