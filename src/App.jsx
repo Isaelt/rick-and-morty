@@ -40,7 +40,7 @@ function App() {
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  
+
  
   return (
     <div>
